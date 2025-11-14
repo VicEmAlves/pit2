@@ -228,10 +228,10 @@
         <button class="btn" id="btn-login" title="Entrar">Entrar</button>
       </nav>
     </header>
-    
+
     <script>
     (async function() {
-        const { text } = await( await fetch(`/api/message`)).json();
+        const { text } = await( await fetch(`/api/testTrigger`)).json();
         document.querySelector('#name').textContent = text;
     }());
     </script>
