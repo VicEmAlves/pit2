@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pit - Buscador de Partituras</title>
-  <meta name="description" content="Busque, visualize e baixe partituras para vários instrumentos e níveis." />
+  <meta name="description" content="Busque, visualize e baixe partituras para vï¿½rios instrumentos e nï¿½veis." />
 
   <style>
     :root{
@@ -219,45 +219,53 @@
         <div class="logo" aria-hidden="true">PIT</div>
         <div>
           <h1>Pit - Partituras</h1>
-          <p class="lead">Encontre partituras por título, compositor, instrumento e nível.</p>
+          <p class="lead">Encontre partituras por tï¿½tulo, compositor, instrumento e nï¿½vel.</p>
         </div>
       </div>
 
-      <nav class="actions" aria-label="Ações">
+      <nav class="actions" aria-label="Aï¿½ï¿½es">
         <button class="btn" id="btn-upload" title="Enviar partitura">Enviar</button>
         <button class="btn" id="btn-login" title="Entrar">Entrar</button>
       </nav>
     </header>
+    
+    <script>
+    (async function() {
+        const { text } = await( await fetch(`/api/message`)).json();
+        document.querySelector('#name').textContent = text;
+    }());
+    </script>
+
 
     <main class="card" role="main">
       <form id="searchForm" class="search-row" aria-label="Pesquisa de partituras" onsubmit="return false;">
         <div class="search" role="search" aria-label="Campo de busca">
-          <input type="search" id="q" placeholder="Buscar por música, compositor, obra..." aria-label="Pesquisar partituras" autocomplete="off" />
+          <input type="search" id="q" placeholder="Buscar por mï¿½sica, compositor, obra..." aria-label="Pesquisar partituras" autocomplete="off" />
           <button class="btn" id="btn-search" type="button" aria-label="Pesquisar">Buscar</button>
         </div>
 
         <div style="display:flex;gap:8px;align-items:center;">
           <div class="filters" aria-hidden="false">
             <select id="instrument" class="filter-select" aria-label="Instrumento">
-              <option value="">Instrumento • Todos</option>
+              <option value="">Instrumento ï¿½ Todos</option>
               <option>Piano</option>
-              <option>Violão</option>
+              <option>Violï¿½o</option>
               <option>Violino</option>
               <option>Flauta</option>
               <option>Guitarra</option>
             </select>
-            <select id="level" class="filter-select" aria-label="Nível de dificuldade">
-              <option value="">Nível • Todos</option>
+            <select id="level" class="filter-select" aria-label="Nï¿½vel de dificuldade">
+              <option value="">Nï¿½vel ï¿½ Todos</option>
               <option>Iniciante</option>
-              <option>Intermediário</option>
-              <option>Avançado</option>
+              <option>Intermediï¿½rio</option>
+              <option>Avanï¿½ado</option>
             </select>
           </div>
         </div>
       </form>
 
       <section class="results" aria-live="polite" aria-atomic="true">
-        <div id="summary" style="color:var(--muted);font-size:14px">Busque por algo para ver resultados — exemplos incluídos.</div>
+        <div id="summary" style="color:var(--muted);font-size:14px">Busque por algo para ver resultados ï¿½ exemplos incluï¿½dos.</div>
 
         <div class="grid" id="resultsGrid" role="list">
           <!-- cards geradas via JS -->
@@ -265,18 +273,18 @@
       </section>
 
       <footer>
-        <small>Partituras grátis e pagas. Sempre respeite direitos autorais ao baixar e reproduzir obras.</small>
+        <small>Partituras grï¿½tis e pagas. Sempre respeite direitos autorais ao baixar e reproduzir obras.</small>
       </footer>
     </main>
   </div>
 
   <script>
-    // Dados de exemplo -- substitua por chamadas reais à API quando disponível.
+    // Dados de exemplo -- substitua por chamadas reais ï¿½ API quando disponï¿½vel.
     const sample = [
-      { id:1, title:"Fur Elise", composer:"Beethoven", instrument:"Piano", level:"Intermediário", pages:2, size:"150KB" },
-      { id:2, title:"Garota de Ipanema", composer:"Tom Jobim", instrument:"Violão", level:"Iniciante", pages:3, size:"240KB" },
-      { id:3, title:"Canon in D", composer:"Pachelbel", instrument:"Violino", level:"Intermediário", pages:4, size:"320KB" },
-      { id:4, title:"Prelude in C", composer:"Bach", instrument:"Piano", level:"Avançado", pages:6, size:"520KB" },
+      { id:1, title:"Fur Elise", composer:"Beethoven", instrument:"Piano", level:"Intermediï¿½rio", pages:2, size:"150KB" },
+      { id:2, title:"Garota de Ipanema", composer:"Tom Jobim", instrument:"Violï¿½o", level:"Iniciante", pages:3, size:"240KB" },
+      { id:3, title:"Canon in D", composer:"Pachelbel", instrument:"Violino", level:"Intermediï¿½rio", pages:4, size:"320KB" },
+      { id:4, title:"Prelude in C", composer:"Bach", instrument:"Piano", level:"Avanï¿½ado", pages:6, size:"520KB" },
       { id:5, title:"Stand by Me", composer:"King", instrument:"Guitarra", level:"Iniciante", pages:2, size:"180KB" }
     ];
 
@@ -302,7 +310,7 @@
           <div class="cover" aria-hidden="true">${item.instrument}</div>
           <div class="meta">
             <h3>${escapeHtml(item.title)}</h3>
-            <p>${escapeHtml(item.composer)} • ${escapeHtml(item.pages + ' pgs')} • ${escapeHtml(item.size)}</p>
+            <p>${escapeHtml(item.composer)} ï¿½ ${escapeHtml(item.pages + ' pgs')} ï¿½ ${escapeHtml(item.size)}</p>
             <div class="tags">
               <span class="tag">${escapeHtml(item.instrument)}</span>
               <span class="tag">${escapeHtml(item.level)}</span>
@@ -325,7 +333,7 @@
       const term = $q.value.trim().toLowerCase();
       const inst = $inst.value;
       const lvl = $level.value;
-      // filtra localmente; substitua por fetch('/api/search?...') em produção
+      // filtra localmente; substitua por fetch('/api/search?...') em produï¿½ï¿½o
       const results = sample.filter(x=>{
         const matchTerm = !term || (x.title+ ' '+ x.composer).toLowerCase().includes(term);
         const matchInst = !inst || x.instrument === inst;
@@ -353,7 +361,7 @@
       if(btn.classList.contains('preview')){
         alert('Visualizar (demo): ' + item.title + '\\nCompositor: ' + item.composer + '\\nInstrumento: ' + item.instrument);
       } else if(btn.classList.contains('download')){
-        // Em produção, redirecione para URL real de download
+        // Em produï¿½ï¿½o, redirecione para URL real de download
         alert('Baixar (demo): ' + item.title + '\\nSimulando download...');
       }
     });
