@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pit - Buscador de Partituras</title>
+  <meta name="description" content="Busque, visualize e baixe partituras para vários instrumentos e níveis." />
+
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#6ee7b7;
+      --muted:#94a3b8;
+      --glass: rgba(255,255,255,0.03);
+      --radius:12px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#071027 70%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:24px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+    }
+
+    .container{
+      width:100%;
+      max-width:1100px;
+    }
+
+    header.site-header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:20px;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo{
+      width:56px;
+      height:56px;
+      background:linear-gradient(135deg,var(--accent),#60a5fa);
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      color:#052024;
+      font-weight:700;
+      font-size:20px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.4);
+    }
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .actions{
+      margin-left:auto;
+      display:flex;
+      gap:8px;
+    }
+    .btn{
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--accent);
+      padding:8px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    main.card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      backdrop-filter: blur(6px);
+    }
+
+    .search-row{
+      display:grid;
+      grid-template-columns: 1fr 260px;
+      gap:12px;
+      align-items:center;
+      margin-bottom:16px;
+    }
+
+    .search {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      background:rgba(255,255,255,0.02);
+      padding:8px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .search input[type="search"]{
+      width:100%;
+      background:transparent;
+      border:0;
+      color:inherit;
+      padding:10px;
+      outline:none;
+      font-size:15px;
+    }
+    .filters{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    select, .filter-select{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--muted);
+      padding:8px 10px;
+      border-radius:10px;
+      font-size:14px;
+      min-width:120px;
+    }
+
+    .results{
+      margin-top:8px;
+      display:grid;
+      gap:12px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .card-item{
+      background:var(--card);
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .cover{
+      width:70px;
+      height:90px;
+      background:linear-gradient(180deg,#fff2 0%, #fff0 100%);
+      border-radius:6px;
+      flex-shrink:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+      padding:6px;
+    }
+    .meta{flex:1}
+    .meta h3{margin:0;font-size:15px}
+    .meta p{margin:6px 0 0 0;font-size:13px;color:var(--muted)}
+    .meta .tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+    .tag{background:rgba(255,255,255,0.02);padding:4px 8px;border-radius:8px;font-size:12px;color:var(--muted)}
+
+    .item-actions{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      align-items:flex-end;
+    }
+    .download{
+      background:var(--accent);
+      color:#052024;
+      padding:8px 10px;
+      border-radius:8px;
+      font-weight:700;
+      border:0;
+      cursor:pointer;
+    }
+    .preview{
+      background:transparent;
+      color:var(--muted);
+      border:1px dashed rgba(255,255,255,0.03);
+      padding:6px 8px;
+      border-radius:8px;
+      font-size:13px;
+      cursor:pointer;
+    }
+
+    footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:13px;
+      text-align:center;
+    }
+
+    /* Responsive */
+    @media (max-width:720px){
+      .search-row{grid-template-columns:1fr}
+      .actions{display:none}
+      .cover{width:56px;height:70px}
+    }
+
+    /* lightweight accessibility focus */
+    button:focus, [role="button"]:focus, input:focus, select:focus {
+      outline:3px solid rgba(110,231,183,0.18);
+      outline-offset:2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header" role="banner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">PIT</div>
+        <div>
+          <h1>Pit - Partituras</h1>
+          <p class="lead">Encontre partituras por título, compositor, instrumento e nível.</p>
+        </div>
+      </div>
+
+      <nav class="actions" aria-label="Ações">
+        <button class="btn" id="btn-upload" title="Enviar partitura">Enviar</button>
+        <button class="btn" id="btn-login" title="Entrar">Entrar</button>
+      </nav>
+    </header>
+
+    <main class="card" role="main">
+      <form id="searchForm" class="search-row" aria-label="Pesquisa de partituras" onsubmit="return false;">
+        <div class="search" role="search" aria-label="Campo de busca">
+          <input type="search" id="q" placeholder="Buscar por música, compositor, obra..." aria-label="Pesquisar partituras" autocomplete="off" />
+          <button class="btn" id="btn-search" type="button" aria-label="Pesquisar">Buscar</button>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="filters" aria-hidden="false">
+            <select id="instrument" class="filter-select" aria-label="Instrumento">
+              <option value="">Instrumento • Todos</option>
+              <option>Piano</option>
+              <option>Violão</option>
+              <option>Violino</option>
+              <option>Flauta</option>
+              <option>Guitarra</option>
+            </select>
+            <select id="level" class="filter-select" aria-label="Nível de dificuldade">
+              <option value="">Nível • Todos</option>
+              <option>Iniciante</option>
+              <option>Intermediário</option>
+              <option>Avançado</option>
+            </select>
+          </div>
+        </div>
+      </form>
+
+      <section class="results" aria-live="polite" aria-atomic="true">
+        <div id="summary" style="color:var(--muted);font-size:14px">Busque por algo para ver resultados — exemplos incluídos.</div>
+
+        <div class="grid" id="resultsGrid" role="list">
+          <!-- cards geradas via JS -->
+        </div>
+      </section>
+
+      <footer>
+        <small>Partituras grátis e pagas. Sempre respeite direitos autorais ao baixar e reproduzir obras.</small>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Dados de exemplo -- substitua por chamadas reais à API quando disponível.
+    const sample = [
+      { id:1, title:"Fur Elise", composer:"Beethoven", instrument:"Piano", level:"Intermediário", pages:2, size:"150KB" },
+      { id:2, title:"Garota de Ipanema", composer:"Tom Jobim", instrument:"Violão", level:"Iniciante", pages:3, size:"240KB" },
+      { id:3, title:"Canon in D", composer:"Pachelbel", instrument:"Violino", level:"Intermediário", pages:4, size:"320KB" },
+      { id:4, title:"Prelude in C", composer:"Bach", instrument:"Piano", level:"Avançado", pages:6, size:"520KB" },
+      { id:5, title:"Stand by Me", composer:"King", instrument:"Guitarra", level:"Iniciante", pages:2, size:"180KB" }
+    ];
+
+    const $q = document.getElementById('q');
+    const $inst = document.getElementById('instrument');
+    const $level = document.getElementById('level');
+    const $results = document.getElementById('resultsGrid');
+    const $summary = document.getElementById('summary');
+    const $btnSearch = document.getElementById('btn-search');
+
+    function render(results){
+      $results.innerHTML = '';
+      if(!results.length){
+        $summary.textContent = 'Nenhuma partitura encontrada.';
+        return;
+      }
+      $summary.textContent = `${results.length} resultado(s) encontrado(s).`;
+      results.forEach(item=>{
+        const card = document.createElement('article');
+        card.className = 'card-item';
+        card.setAttribute('role','listitem');
+        card.innerHTML = `
+          <div class="cover" aria-hidden="true">${item.instrument}</div>
+          <div class="meta">
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.composer)} • ${escapeHtml(item.pages + ' pgs')} • ${escapeHtml(item.size)}</p>
+            <div class="tags">
+              <span class="tag">${escapeHtml(item.instrument)}</span>
+              <span class="tag">${escapeHtml(item.level)}</span>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="preview" data-id="${item.id}" aria-label="Visualizar ${escapeHtml(item.title)}">Visualizar</button>
+            <button class="download" data-id="${item.id}" aria-label="Baixar ${escapeHtml(item.title)}">Baixar</button>
+          </div>
+        `;
+        $results.appendChild(card);
+      });
+    }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"\'":'&#39;'})[m]; });
+    }
+
+    function doSearch(){
+      const term = $q.value.trim().toLowerCase();
+      const inst = $inst.value;
+      const lvl = $level.value;
+      // filtra localmente; substitua por fetch('/api/search?...') em produção
+      const results = sample.filter(x=>{
+        const matchTerm = !term || (x.title+ ' '+ x.composer).toLowerCase().includes(term);
+        const matchInst = !inst || x.instrument === inst;
+        const matchLvl = !lvl || x.level === lvl;
+        return matchTerm && matchInst && matchLvl;
+      });
+      render(results);
+    }
+
+    // handlers
+    $btnSearch.addEventListener('click', doSearch);
+    $q.addEventListener('keydown', e=>{
+      if(e.key === 'Enter'){ doSearch(); e.preventDefault();}
+    });
+    $inst.addEventListener('change', doSearch);
+    $level.addEventListener('change', doSearch);
+
+    // actions for preview/download (demo)
+    $results.addEventListener('click', e=>{
+      const btn = e.target.closest('button');
+      if(!btn) return;
+      const id = btn.getAttribute('data-id');
+      const item = sample.find(s=>String(s.id)===String(id));
+      if(!item) return;
+      if(btn.classList.contains('preview')){
+        alert('Visualizar (demo): ' + item.title + '\\nCompositor: ' + item.composer + '\\nInstrumento: ' + item.instrument);
+      } else if(btn.classList.contains('download')){
+        // Em produção, redirecione para URL real de download
+        alert('Baixar (demo): ' + item.title + '\\nSimulando download...');
+      }
+    });
+
+    // Mostra exemplos ao carregar
+    render(sample);
+  </script>
+</body>
+</html>
