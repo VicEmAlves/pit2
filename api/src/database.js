@@ -2,18 +2,6 @@ const sql = require('mssql');
 
 const connectionString = process.env.DATABASE_CONNECTION_STRING;
 
-// Parse connection string and create config
-const config = {
-  connectionString: connectionString,
-  authentication: {
-    type: 'default'
-  },
-  options: {
-    encrypt: true,
-    trustServerCertificate: false
-  }
-};
-
 let pool = null;
 
 async function connectDatabase() {
@@ -23,7 +11,7 @@ async function connectDatabase() {
     }
 
     if (!pool) {
-      pool = new sql.ConnectionPool(config);
+      pool = new sql.connect(connectionString);
       await pool.connect();
       console.log('Connected to SQL Server database');
     }
