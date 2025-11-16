@@ -59,8 +59,7 @@ async function loadCompatibleGames(sec){
                       <td>${g.nome ?? g.Nome}</td>
                       <td>${formatRange(g.qtdMinimaJogadores ?? g.QtdMinimaJogadores, g.qtdMaximaJogadores ?? g.QtdMaximaJogadores)}</td>
                       <td>${g.idadeMinima ?? g.IdadeMinima}</td>
-                      <td>${g.duracaoMinutos ?? g.DuracaoMinutos}</td>
-                      <td><button class="ask-first" data-id="${id}">Marcar Primeiro Jogo?</button></td>`;
+                      <td>${g.duracaoMinutos ?? g.DuracaoMinutos}</td>`;
       tbody.appendChild(tr);
     }
 
