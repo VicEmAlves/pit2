@@ -1,169 +1,114 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pit - Buscador de Partituras</title>
-  <meta name="description" content="Busque, visualize e baixe partituras para vários instrumentos e níveis." />
-
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Board Games - Login</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="container">
-    <header class="site-header" role="banner">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">PIT</div>
-        <div>
-          <h1>Pit - Partituras</h1>
-          <p class="lead">Encontre partituras por título, compositor, instrumento e nível.</p>
-        </div>
-      </div>
+    <main class="container">
+        <header>
+            <h1>Board Games Planner</h1>
+        </header>
 
-      <nav class="actions" aria-label="Ações">
-        <button class="btn" id="btn-upload" title="Enviar partitura">Enviar</button>
-        <button class="btn" id="btn-login" title="Entrar">Entrar</button>
-      </nav>
-    </header>
-
-    <script>
-    (async function() {
-        const { text } = await( await fetch(`/api/testTrigger`)).json();
-        document.querySelector('#name').textContent = text;
-    }());
-    </script>
-
-
-    <main class="card" role="main">
-      <form id="searchForm" class="search-row" aria-label="Pesquisa de partituras" onsubmit="return false;">
-        <div class="search" role="search" aria-label="Campo de busca">
-          <input type="search" id="q" placeholder="Buscar por música, compositor, obra..." aria-label="Pesquisar partituras" autocomplete="off" />
-          <button class="btn" id="btn-search" type="button" aria-label="Pesquisar">Buscar</button>
-        </div>
-
-        <div style="display:flex;gap:8px;align-items:center;">
-          <div class="filters" aria-hidden="false">
-            <select id="instrument" class="filter-select" aria-label="Instrumento">
-              <option value="">Instrumento — Todos</option>
-              <option>Piano</option>
-              <option>Violão</option>
-              <option>Violino</option>
-              <option>Flauta</option>
-              <option>Guitarra</option>
-            </select>
-            <select id="level" class="filter-select" aria-label="Nível de dificuldade">
-              <option value="">Nível — Todos</option>
-              <option>Iniciante</option>
-              <option>Intermediário</option>
-              <option>Avançado</option>
-            </select>
-          </div>
-        </div>
-      </form>
-
-      <section class="results" aria-live="polite" aria-atomic="true">
-        <div id="summary" style="color:var(--muted);font-size:14px">Busque por algo para ver resultados — exemplos incluídos.</div>
-
-        <div class="grid" id="resultsGrid" role="list">
-          <!-- cards geradas via JS -->
-        </div>
-      </section>
-
-      <footer>
-        <small>Partituras grátis e pagas. Sempre respeite direitos autorais ao baixar e reproduzir obras.</small>
-      </footer>
-    </main>
-  </div>
-
-  <script>
-    // Dados de exemplo -- substitua por chamadas reais à API quando disponível.
-    const sample = [
-      { id:1, title:"Fur Elise", composer:"Beethoven", instrument:"Piano", level:"Intermediário", pages:2, size:"150KB" },
-      { id:2, title:"Garota de Ipanema", composer:"Tom Jobim", instrument:"Violão", level:"Iniciante", pages:3, size:"240KB" },
-      { id:3, title:"Canon in D", composer:"Pachelbel", instrument:"Violino", level:"Intermediário", pages:4, size:"320KB" },
-      { id:4, title:"Prelude in C", composer:"Bach", instrument:"Piano", level:"Avançado", pages:6, size:"520KB" },
-      { id:5, title:"Stand by Me", composer:"King", instrument:"Guitarra", level:"Iniciante", pages:2, size:"180KB" }
-    ];
-
-    const $q = document.getElementById('q');
-    const $inst = document.getElementById('instrument');
-    const $level = document.getElementById('level');
-    const $results = document.getElementById('resultsGrid');
-    const $summary = document.getElementById('summary');
-    const $btnSearch = document.getElementById('btn-search');
-
-    function render(results){
-      $results.innerHTML = '';
-      if(!results.length){
-        $summary.textContent = 'Nenhuma partitura encontrada.';
-        return;
-      }
-      $summary.textContent = `${results.length} resultado(s) encontrado(s).`;
-      results.forEach(item=>{
-        const card = document.createElement('article');
-        card.className = 'card-item';
-        card.setAttribute('role','listitem');
-        card.innerHTML = `
-          <div class="cover" aria-hidden="true">${item.instrument}</div>
-          <div class="meta">
-            <h3>${escapeHtml(item.title)}</h3>
-            <p>${escapeHtml(item.composer)} • ${escapeHtml(item.pages + ' pgs')} • ${escapeHtml(item.size)}</p>
-            <div class="tags">
-              <span class="tag">${escapeHtml(item.instrument)}</span>
-              <span class="tag">${escapeHtml(item.level)}</span>
+        <section id="auth-area" class="card">
+            <!-- Login -->
+            <div id="login-view" class="view">
+                <h2>Login</h2>
+                <div class="form-row">
+                    <label for="login-nick">NickName</label>
+                    <input id="login-nick" type="text" />
+                </div>
+                <div class="form-row">
+                    <label for="login-pass">Senha</label>
+                    <input id="login-pass" type="password" />
+                </div>
+                <div class="form-actions">
+                    <button id="btn-login" class="primary">Login</button>
+                    <button id="btn-show-register">Cadastrar</button>
+                    <button id="btn-show-forgot">Esqueci minha senha</button>
+                </div>
+                <div id="login-message" class="message"></div>
             </div>
-          </div>
-          <div class="item-actions">
-            <button class="preview" data-id="${item.id}" aria-label="Visualizar ${escapeHtml(item.title)}">Visualizar</button>
-            <button class="download" data-id="${item.id}" aria-label="Baixar ${escapeHtml(item.title)}">Baixar</button>
-          </div>
-        `;
-        $results.appendChild(card);
-      });
-    }
 
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"\'":'&#39;'})[m]; });
-    }
+            <!-- Register -->
+            <div id="register-view" class="view hidden">
+                <h2>Cadastrar</h2>
+                <div class="form-row">
+                    <label for="reg-nick">NickName</label>
+                    <input id="reg-nick" type="text" />
+                </div>
+                <div class="form-row">
+                    <label for="reg-pass">Senha</label>
+                    <input id="reg-pass" type="password" />
+                </div>
+                <div class="form-row">
+                    <label for="reg-question">Pergunta de Segurança</label>
+                    <select id="reg-question"><option>Carregando...</option></select>
+                </div>
+                <div class="form-row">
+                    <label for="reg-answer">Resposta</label>
+                    <input id="reg-answer" type="text" />
+                </div>
+                <div class="form-actions">
+                    <button id="btn-register" class="primary">Cadastrar</button>
+                    <button id="btn-back-to-login-1">Cancelar</button>
+                </div>
+                <div id="register-message" class="message"></div>
+            </div>
 
-    function doSearch(){
-      const term = $q.value.trim().toLowerCase();
-      const inst = $inst.value;
-      const lvl = $level.value;
-      // filtra localmente; substitua por fetch('/api/search?...') em produção
-      const results = sample.filter(x=>{
-        const matchTerm = !term || (x.title+ ' '+ x.composer).toLowerCase().includes(term);
-        const matchInst = !inst || x.instrument === inst;
-        const matchLvl = !lvl || x.level === lvl;
-        return matchTerm && matchInst && matchLvl;
-      });
-      render(results);
-    }
+            <!-- Forgot password -->
+            <div id="forgot-view" class="view hidden">
+                <h2>Esqueci minha senha</h2>
 
-    // handlers
-    $btnSearch.addEventListener('click', doSearch);
-    $q.addEventListener('keydown', e=>{
-      if(e.key === 'Enter'){ doSearch(); e.preventDefault();}
-    });
-    $inst.addEventListener('change', doSearch);
-    $level.addEventListener('change', doSearch);
+                <div id="fp-step1" class="fp-step">
+                    <div class="form-row">
+                        <label for="fp-nick">NickName</label>
+                        <input id="fp-nick" type="text" />
+                    </div>
+                    <div class="form-actions">
+                        <button id="btn-get-question" class="primary">Buscar Pergunta</button>
+                        <button id="btn-back-to-login-2">Cancelar</button>
+                    </div>
+                    <div id="fp-msg-1" class="message"></div>
+                </div>
 
-    // actions for preview/download (demo)
-    $results.addEventListener('click', e=>{
-      const btn = e.target.closest('button');
-      if(!btn) return;
-      const id = btn.getAttribute('data-id');
-      const item = sample.find(s=>String(s.id)===String(id));
-      if(!item) return;
-      if(btn.classList.contains('preview')){
-        alert('Visualizar (demo): ' + item.title + '\\nCompositor: ' + item.composer + '\\nInstrumento: ' + item.instrument);
-      } else if(btn.classList.contains('download')){
-        // Em produção, redirecione para URL real de download
-        alert('Baixar (demo): ' + item.title + '\\nSimulando download...');
-      }
-    });
+                <div id="fp-step2" class="fp-step hidden">
+                    <div class="form-row">
+                        <label>Pergunta</label>
+                        <div id="fp-question" class="question-box">—</div>
+                    </div>
+                    <div class="form-row">
+                        <label for="fp-answer">Resposta</label>
+                        <input id="fp-answer" type="text" />
+                    </div>
+                    <div class="form-actions">
+                        <button id="btn-validate-answer" class="primary">Validar Resposta</button>
+                        <button id="btn-back-to-step1">Voltar</button>
+                    </div>
+                    <div id="fp-msg-2" class="message"></div>
+                </div>
 
-    // Mostra exemplos ao carregar
-    render(sample);
-  </script>
+                <div id="fp-step3" class="fp-step hidden">
+                    <div class="form-row">
+                        <label for="fp-newpass">Nova Senha</label>
+                        <input id="fp-newpass" type="password" />
+                    </div>
+                    <div class="form-actions">
+                        <button id="btn-change-password" class="primary">Alterar Senha</button>
+                        <button id="btn-back-to-login-3">Cancelar</button>
+                    </div>
+                    <div id="fp-msg-3" class="message"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <small>Universidade Cruzeiro do Sul Virtual</small>
+        </footer>
+    </main>
+
+    <script src="app.js"></script>
 </body>
 </html>
