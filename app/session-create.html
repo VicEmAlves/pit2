@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Criar Sessão</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header><h1>Criar Sessão</h1></header>
+
+    <section class="card">
+      <div class="form-row">
+        <label for="s-idade">Idade do jogador mais novo</label>
+        <input id="s-idade" type="number" min="0" />
+      </div>
+      <div class="form-row">
+        <label for="s-duracao">Duração (min)</label>
+        <input id="s-duracao" type="number" min="1" />
+      </div>
+      <div class="form-row">
+        <label for="s-qtd">Quantidade de jogadores</label>
+        <input id="s-qtd" type="number" min="1" />
+      </div>
+      <div class="form-row">
+        <label for="s-complex-min">Complexidade mínima</label>
+        <select id="s-complex-min"></select>
+      </div>
+      <div class="form-row">
+        <label for="s-complex-max">Complexidade máxima</label>
+        <select id="s-complex-max"></select>
+      </div>
+
+      <div class="form-actions">
+        <button id="btn-create-session" class="primary">Criar</button>
+        <button id="btn-cancel-session">Cancelar</button>
+      </div>
+      <div id="session-message" class="message"></div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="session-create.js"></script>
+</body>
+</html>

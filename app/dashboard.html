@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Board Games — Painel</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>Noite de Jogos — Meus Jogos & Sessões</h1>
+      <div style="text-align:right">
+        <button id="btn-logout">Sair</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>Filtros</h2>
+      <div class="form-row">
+        <label for="f-nome">Nome do jogo</label>
+        <input id="f-nome" type="text" />
+      </div>
+      <div class="form-row">
+        <label for="f-duracao">Duração máxima (min)</label>
+        <input id="f-duracao" type="number" min="0" />
+      </div>
+      <div class="form-row">
+        <label for="f-qtd">Quantidade de pessoas</label>
+        <input id="f-qtd" type="number" min="1" />
+      </div>
+      <div class="form-row">
+        <label for="f-idade">Idade mínima do jogador</label>
+        <input id="f-idade" type="number" min="0" />
+      </div>
+      <div class="form-row" id="complexity-checkboxes">
+        <label>Complexidade</label>
+        <div id="complexity-list"></div>
+      </div>
+      <div class="form-actions">
+        <button id="btn-search" class="primary">Buscar</button>
+        <button id="btn-clear">Limpar</button>
+        <button id="btn-new-game">Cadastrar Jogo</button>
+        <button id="btn-new-session">Criar Sessão</button>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2>Meus Jogos</h2>
+      <table id="games-table" class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Pessoas (min-max)</th>
+            <th>Idade Min</th>
+            <th>Duração (min)</th>
+            <th>Complexidade</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+      <div id="games-message" class="message" />
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2>Minhas Sessões</h2>
+      <table id="sessions-table" class="table">
+        <thead>
+          <tr>
+            <th>Idade mais nova</th>
+            <th>Duração (min)</th>
+            <th>Qtd Jogadores</th>
+            <th>Complexidade Min</th>
+            <th>Complexidade Max</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+      <div id="sessions-message" class="message" />
+    </section>
+
+    <footer class="footer">
+      <small>Board Games Planner</small>
+    </footer>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

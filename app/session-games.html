@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jogos Compatíveis — Sessão</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header><h1 id="sec-title">Jogos Compatíveis</h1></header>
+
+    <section class="card">
+      <div id="sec-info"></div>
+      <h3>Jogos Compatíveis</h3>
+      <table id="compatible-table" class="table">
+        <thead>
+          <tr>
+            <th>Selecionar</th>
+            <th>Nome</th>
+            <th>Min - Max</th>
+            <th>Idade Min</th>
+            <th>Duração (min)</th>
+            <th>Primeira Vez</th>
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+      <div id="compatible-message" class="message"></div>
+
+      <h3 style="margin-top:12px">Jogos na Sessão</h3>
+      <table id="session-games-table" class="table">
+        <thead><tr><th>Nome</th><th>Duração ajustada (min)</th></tr></thead>
+        <tbody /></table>
+      <div id="session-games-message" class="message"></div>
+
+      <div class="form-actions" style="margin-top:12px">
+        <button id="btn-back" class="primary">Voltar</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="session-games.js"></script>
+</body>
+</html>
